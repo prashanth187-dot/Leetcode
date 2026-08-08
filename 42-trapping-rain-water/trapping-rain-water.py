@@ -4,20 +4,24 @@ class Solution(object):
         :type height: List[int]
         :rtype: int
         """
-        n=len(height)
-        prefix=[0]*n
-        suffix=[0]*n
-        prefix[0]=height[0]
-        suffix[n-1]=height[n-1]
-        for i in range(1,n-1):
-            prefix[i]=max(prefix[i-1],height[i])
-            suffix[n-i-1]=max(suffix[n-i],height[n-i-1])
+        lmax=0
+        rmax=0
         total=0
-        for i in range(0,n-1):
-            leftmax=prefix[i]
-            rightmax=suffix[i]
-            if height[i]<leftmax and height[i]<rightmax:
-                total+=min(leftmax,rightmax)-height[i]
+        l=0
+        n=len(height)
+        r=n-1
+        while l<r:
+            if height[l]<=height[r]:
+                if height[l]<lmax:
+                    total+=lmax-height[l]
+                else:
+                    lmax=height[l]
+                l+=1
+            else:
+                if height[r]<rmax:
+                    total+=rmax-height[r]
+                else:
+                    rmax=height[r]
+                r-=1
         return total
-
         
